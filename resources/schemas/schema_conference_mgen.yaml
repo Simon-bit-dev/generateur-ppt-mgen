@@ -1,0 +1,179 @@
+schema_version: "1.0"
+template:
+  family: "MGEN_CONFERENCE_WEBINAIRE"
+  template_sha256: "e2dd51e964983f5bf10ac0a47a11203fa04cd314b55c49afed509490adadefb0"
+  expected_slide_master_count: 1
+  expected_layout_count: 22
+
+presentation:
+  format: "CONFÉRENCE"
+  title: "À RENSEIGNER"
+  subtitle: "À RENSEIGNER OU LAISSER VIDE"
+  date: "[Date à compléter]"
+  architecture_variant: "32_STANDARD"
+
+opening:
+  welcome_sentence: "À RENSEIGNER"
+  speaker_identification: "À compléter"
+
+sections:
+  accueil_objectifs:
+    transition_sentence: "À RENSEIGNER"
+    objectives:
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+    icebreaker:
+      question: "À RENSEIGNER"
+      instruction: "À RENSEIGNER"
+
+  reperes_theoriques:
+    transition_sentence: "À RENSEIGNER"
+    slides:
+      - slot: 1
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+      - slot: 2
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+      - slot: 3
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+      - slot: 4
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+      - slot: 5
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+      - slot: 6
+        enabled: false
+        title: ""
+        body: []
+
+  conseils_pratiques:
+    transition_sentence: "À RENSEIGNER"
+    slides:
+      - slot: 1
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+      - slot: 2
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+      - slot: 3
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+      - slot: 4
+        enabled: false
+        title: ""
+        body: []
+
+  testez_connaissances:
+    questions:
+      - number: 1
+        statement: "À RENSEIGNER"
+        verdict: "FAUX"
+        correction_message: "À RENSEIGNER"
+        explanation:
+          - "À RENSEIGNER"
+      - number: 2
+        statement: "À RENSEIGNER"
+        verdict: "FAUX"
+        correction_message: "À RENSEIGNER"
+        explanation:
+          - "À RENSEIGNER"
+      - number: 3
+        statement: "À RENSEIGNER"
+        verdict: "VRAI"
+        correction_message: "À RENSEIGNER"
+        explanation:
+          - "À RENSEIGNER"
+
+  passer_action:
+    transition_sentence: "À RENSEIGNER"
+    slides:
+      - slot: 1
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+      - slot: 2
+        enabled: true
+        title: "À RENSEIGNER"
+        body:
+          - "À RENSEIGNER"
+
+  conclusion:
+    transition_sentence: "À RENSEIGNER"
+    synthesis:
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+    further_resources:
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+      - "À RENSEIGNER"
+
+validation_contract:
+  allowed_formats:
+    - "CONFÉRENCE"
+    - "WEBINAIRE"
+    - "FORMAT À PRÉCISER"
+  allowed_architectures:
+    "31_STANDARD":
+      theoretical_slides: 5
+      practical_slides: 3
+      action_slides: 1
+      total_slides: 31
+    "32_STANDARD":
+      theoretical_slides: 5
+      practical_slides: 3
+      action_slides: 2
+      total_slides: 32
+    "33_REPERES":
+      theoretical_slides: 6
+      practical_slides: 3
+      action_slides: 2
+      total_slides: 33
+    "33_CONSEILS":
+      theoretical_slides: 5
+      practical_slides: 4
+      action_slides: 2
+      total_slides: 33
+  limits:
+    objectives_max: 4
+    theoretical_body_items_max: 5
+    practical_body_items_max: 5
+    quiz_questions_exact: 3
+    quiz_explanation_items_max: 4
+    action_body_items_max: 5
+    synthesis_items_min: 4
+    synthesis_items_max: 5
+    further_resources_max: 4
+  fixed_slides_generated_by_script:
+    - "04_Sommaire"
+    - "12_Transition_Testez_connaissances"
+    - "21_Vivoptim"
+    - "22_4ème_couverture"
+  verdict_mapping:
+    VRAI: "15_Vrai"
+    FAUX: "14_Faux"

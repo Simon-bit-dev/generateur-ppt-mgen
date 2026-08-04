@@ -1,0 +1,223 @@
+schema_version: "1.0"
+template:
+  family: "MGEN_CONFERENCE_WEBINAIRE"
+  template_sha256: "e2dd51e964983f5bf10ac0a47a11203fa04cd314b55c49afed509490adadefb0"
+  expected_slide_master_count: 1
+  expected_layout_count: 22
+
+presentation:
+  format: "CONFÉRENCE"
+  title: "Ménopause : comprendre les changements et mieux agir"
+  subtitle: "Repères de santé, stratégies concrètes et prévention au travail"
+  date: "[Date à compléter]"
+  architecture_variant: "32_STANDARD"
+
+opening:
+  welcome_sentence: "Mieux connaître la ménopause permet d’aborder cette transition avec des repères fiables et des solutions adaptées."
+  speaker_identification: "À compléter"
+
+sections:
+  accueil_objectifs:
+    transition_sentence: "Commençons par préciser ce que cette conférence vous permettra de comprendre et d’appliquer."
+    objectives:
+      - "Distinguer les différentes étapes de la transition ménopausique."
+      - "Identifier les manifestations possibles et leurs effets sur la santé."
+      - "Repérer les stratégies susceptibles d’améliorer le quotidien."
+      - "Comprendre comment mieux prévenir les difficultés dans le cadre professionnel."
+    icebreaker:
+      question: "Quel mot associez-vous spontanément à la ménopause : transition, symptômes, tabou ou autre ?"
+      instruction: "Répondez par un mot ou à main levée, sans évoquer de situation personnelle."
+
+  reperes_theoriques:
+    transition_sentence: "Quelques repères essentiels permettent de mieux comprendre une expérience très variable selon les personnes."
+    slides:
+      - slot: 1
+        enabled: true
+        title: "Un passage en plusieurs étapes"
+        body:
+          - "La périménopause précède la ménopause et peut durer plusieurs années."
+          - "Les cycles deviennent souvent irréguliers sous l’effet des variations hormonales."
+          - "La ménopause est retenue après douze mois consécutifs sans règles, en l’absence d’une autre cause."
+          - "Elle survient généralement entre 45 et 55 ans, autour de 51 ans en moyenne en France."
+          - "La postménopause désigne toute la période qui suit la ménopause."
+      - slot: 2
+        enabled: true
+        title: "Des manifestations très variables"
+        body:
+          - "Les bouffées de chaleur et les sueurs nocturnes sont fréquentes, mais non systématiques."
+          - "Le sommeil peut être perturbé, avec des réveils nocturnes et une fatigue persistante."
+          - "L’humeur, la concentration ou la mémoire peuvent être temporairement affectées."
+          - "Une sécheresse vulvovaginale ou des troubles urinaires peuvent apparaître."
+          - "La nature, l’intensité et la durée des symptômes diffèrent fortement d’une personne à l’autre."
+      - slot: 3
+        enabled: true
+        title: "Des effets qui dépassent les symptômes immédiats"
+        body:
+          - "La diminution des œstrogènes accélère la perte de densité osseuse."
+          - "Le risque cardiovasculaire évolue avec l’âge, les hormones et les autres facteurs de santé."
+          - "La répartition des masses musculaire et graisseuse peut se modifier sans rendre la prise de poids inévitable."
+          - "Certains troubles génito-urinaires peuvent persister ou s’accentuer avec le temps."
+          - "Le sommeil, la santé psychique et la qualité de vie peuvent s’influencer mutuellement."
+      - slot: 4
+        enabled: true
+        title: "Des situations qui justifient un avis médical"
+        body:
+          - "Une consultation est utile lorsque les symptômes altèrent durablement le sommeil ou la vie quotidienne."
+          - "Tout saignement survenant après l’installation de la ménopause doit être signalé rapidement."
+          - "Une interruption des règles avant 40 ans nécessite une évaluation spécifique."
+          - "Des douleurs, des troubles urinaires ou une souffrance psychique persistante doivent être pris en charge."
+          - "Dans une situation habituelle, le diagnostic repose surtout sur l’âge, les symptômes et l’histoire des cycles."
+      - slot: 5
+        enabled: true
+        title: "La ménopause peut aussi affecter le travail"
+        body:
+          - "La fatigue, les bouffées de chaleur ou les difficultés de concentration peuvent gêner certaines activités."
+          - "La chaleur, les horaires atypiques, le manque de pauses ou une forte charge de travail peuvent amplifier les difficultés."
+          - "Ces effets ne remettent pas en cause les compétences professionnelles de la personne."
+          - "Les besoins d’adaptation sont individuels et peuvent évoluer au cours du temps."
+          - "La prévention repose à la fois sur les démarches personnelles et sur les conditions de travail."
+      - slot: 6
+        enabled: false
+        title: ""
+        body: []
+
+  conseils_pratiques:
+    transition_sentence: "Ces repères peuvent maintenant être traduits en stratégies concrètes et proportionnées."
+    slides:
+      - slot: 1
+        enabled: true
+        title: "Observer les symptômes et rechercher une réponse adaptée"
+        body:
+          - "Noter la fréquence, l’intensité et le contexte des symptômes facilite leur évaluation."
+          - "Consulter lorsque les difficultés deviennent gênantes ou inhabituelles."
+          - "Examiner avec un professionnel les options hormonales ou non hormonales disponibles."
+          - "Évaluer les bénéfices, les risques et les contre-indications avant tout traitement."
+          - "Éviter l’automédication et signaler les compléments ou produits de phytothérapie utilisés."
+      - slot: 2
+        enabled: true
+        title: "Soutenir sa santé au quotidien"
+        body:
+          - "Pratiquer régulièrement une activité physique adaptée à ses capacités."
+          - "Associer endurance, renforcement musculaire, équilibre et mobilité."
+          - "Privilégier une alimentation diversifiée apportant suffisamment de protéines et de calcium."
+          - "Maintenir des horaires de sommeil réguliers et un environnement nocturne confortable."
+          - "Limiter le tabac, l’alcool et les habitudes susceptibles d’aggraver les symptômes."
+      - slot: 3
+        enabled: true
+        title: "Agir sur les conditions de travail"
+        body:
+          - "Identifier précisément les situations professionnelles qui accentuent les difficultés."
+          - "Discuter d’ajustements simples : température, pauses, hydratation, tenue ou organisation des horaires."
+          - "Solliciter le service de prévention et de santé au travail lorsque les difficultés persistent."
+          - "Permettre un échange confidentiel sans imposer la divulgation d’informations intimes."
+          - "Sensibiliser les équipes sans stigmatiser ni présumer des besoins individuels."
+      - slot: 4
+        enabled: false
+        title: ""
+        body: []
+
+  testez_connaissances:
+    questions:
+      - number: 1
+        statement: "La ménopause est retenue après douze mois consécutifs sans règles, en l’absence d’une autre cause."
+        verdict: "VRAI"
+        correction_message: "Cette période de douze mois permet de confirmer rétrospectivement l’installation de la ménopause."
+        explanation:
+          - "La périménopause peut auparavant entraîner des cycles très irréguliers."
+          - "La ménopause correspond à l’arrêt durable de la fonction ovarienne."
+          - "Un avis médical reste nécessaire en cas de situation inhabituelle ou précoce."
+      - number: 2
+        statement: "Toutes les femmes rencontrent les mêmes symptômes avec une intensité comparable."
+        verdict: "FAUX"
+        correction_message: "Les manifestations et leur retentissement sont très variables selon les personnes."
+        explanation:
+          - "Certaines personnes présentent peu ou pas de symptômes."
+          - "D’autres rencontrent des difficultés importantes pendant plusieurs années."
+          - "Les besoins d’accompagnement doivent donc être évalués individuellement."
+      - number: 3
+        statement: "Un traitement hormonal de la ménopause peut être commencé sans évaluation médicale préalable."
+        verdict: "FAUX"
+        correction_message: "Un traitement hormonal nécessite une décision médicale individualisée."
+        explanation:
+          - "Les bénéfices attendus dépendent des symptômes et de la situation de santé."
+          - "Les antécédents et les facteurs de risque doivent être évalués."
+          - "La dose, la durée et le suivi doivent être adaptés à chaque personne."
+          - "D’autres réponses peuvent être proposées lorsque ce traitement n’est pas indiqué."
+  passer_action:
+    transition_sentence: "Mettons ces principes en application dans une situation concrète."
+    slides:
+      - slot: 1
+        enabled: true
+        title: "Mini-cas : choisir les réponses pertinentes"
+        body:
+          - "Situation : des sueurs nocturnes perturbent depuis plusieurs mois le sommeil et la concentration au travail."
+          - "Repérez ce qui justifie une consultation auprès d’un professionnel de santé."
+          - "Choisissez une mesure de mode de vie réaliste à expérimenter."
+          - "Identifiez un ajustement temporaire des conditions de travail à discuter."
+          - "Écartez les solutions miracles, l’automédication et la banalisation des symptômes."
+      - slot: 2
+        enabled: true
+        title: "Sélectionner une prochaine étape"
+        body:
+          - "Choisissez une seule action adaptée à votre situation ou à votre rôle."
+          - "Préparer une consultation en notant les symptômes observés."
+          - "Installer une habitude réaliste concernant l’activité physique ou le sommeil."
+          - "Identifier un interlocuteur ou une ressource de confiance."
+          - "Examiner une amélioration possible des conditions de travail."
+  conclusion:
+    transition_sentence: "Terminons par les repères à retenir et les ressources utiles."
+    synthesis:
+      - "La ménopause est une transition naturelle précédée d’une période de changements progressifs."
+      - "Ses manifestations sont diverses et leur retentissement ne doit être ni généralisé ni minimisé."
+      - "Une hygiène de vie favorable soutient la santé sans remplacer une prise en charge adaptée."
+      - "Les traitements nécessitent une évaluation individualisée avec un professionnel de santé."
+      - "Au travail, la prévention combine écoute, confidentialité et adaptation des conditions d’activité."
+    further_resources:
+      - "Dossier « Ménopause et périménopause » de l’Assurance Maladie."
+      - "Médecin traitant, sage-femme ou gynécologue pour une évaluation personnalisée."
+      - "Service de prévention et de santé au travail pour les difficultés professionnelles."
+      - "Informations institutionnelles du ministère chargé de la Santé et de l’Inserm."
+validation_contract:
+  allowed_formats:
+    - "CONFÉRENCE"
+    - "WEBINAIRE"
+    - "FORMAT À PRÉCISER"
+  allowed_architectures:
+    "31_STANDARD":
+      theoretical_slides: 5
+      practical_slides: 3
+      action_slides: 1
+      total_slides: 31
+    "32_STANDARD":
+      theoretical_slides: 5
+      practical_slides: 3
+      action_slides: 2
+      total_slides: 32
+    "33_REPERES":
+      theoretical_slides: 6
+      practical_slides: 3
+      action_slides: 2
+      total_slides: 33
+    "33_CONSEILS":
+      theoretical_slides: 5
+      practical_slides: 4
+      action_slides: 2
+      total_slides: 33
+  limits:
+    objectives_max: 4
+    theoretical_body_items_max: 5
+    practical_body_items_max: 5
+    quiz_questions_exact: 3
+    quiz_explanation_items_max: 4
+    action_body_items_max: 5
+    synthesis_items_min: 4
+    synthesis_items_max: 5
+    further_resources_max: 4
+  fixed_slides_generated_by_script:
+    - "04_Sommaire"
+    - "12_Transition_Testez_connaissances"
+    - "21_Vivoptim"
+    - "22_4ème_couverture"
+  verdict_mapping:
+    VRAI: "15_Vrai"
+    FAUX: "14_Faux"

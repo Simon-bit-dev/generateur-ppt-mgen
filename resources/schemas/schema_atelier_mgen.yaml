@@ -1,0 +1,468 @@
+VARIABLES_GLOBALES:
+  GLOBAL_FOOTER_LEFT: "Atelier de prévention : __TITRE_EXACT_ATELIER__"
+  GLOBAL_FOOTER_RIGHT: "__DATE_EXACTE_OU_DATE_A_COMPLETER__"
+
+SLIDES:
+  - slide_id: "S01"
+    numero: 1
+    partie: "Ouverture institutionnelle"
+    layout_code: "MGEN-01"
+    layout_name_exact: "couverture"
+    statut: "variable"
+    placeholders:
+      PH23: "{{GLOBAL_FOOTER_LEFT}}"
+      PH24: "__SOUS_TITRE_OU_PROMESSE_COURTE__"
+      PH25: "__MENTION_CONTEXTUELLE_FACULTATIVE_OU_VIDE__"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S02"
+    numero: 2
+    partie: "Ouverture institutionnelle"
+    layout_code: "MGEN-02"
+    layout_name_exact: "Bienvenue!"
+    statut: "variable"
+    placeholders:
+      PH22: "__PHRASE_COURTE_DE_BIENVENUE_OU_ACCROCHE__"
+
+  - slide_id: "S03"
+    numero: 3
+    partie: "Ouverture institutionnelle"
+    layout_code: "MGEN-03"
+    layout_name_exact: "intervenants"
+    statut: "variable"
+    placeholders:
+      PH21: "À compléter"
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S04"
+    numero: 4
+    partie: "Ouverture institutionnelle"
+    layout_code: "MGEN-05"
+    layout_name_exact: "sommaire"
+    statut: "fixe — conserver intégralement"
+    placeholders:
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S05"
+    numero: 5
+    partie: "Accueil et objectifs"
+    layout_code: "MGEN-04"
+    layout_name_exact: "Accueil et objectifs"
+    statut: "variable"
+    placeholders:
+      PH25: "1."
+      PH24: "__PHRASE_COURTE_ANNONCE_ACCUEIL_ET_OBJECTIFS__"
+
+  - slide_id: "S06"
+    numero: 6
+    partie: "Accueil et objectifs"
+    layout_code: "MGEN-06"
+    layout_name_exact: "liste objectifs"
+    statut: "variable"
+    placeholders:
+      PH24: |
+        __OBJECTIF_1__
+        __OBJECTIF_2__
+        __OBJECTIF_3__
+        __OBJECTIF_4__
+        __OBJECTIF_5_FACULTATIF_OU_SUPPRIMER_LA_LIGNE__
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S07"
+    numero: 7
+    partie: "Accueil et objectifs"
+    layout_code: "MGEN-07"
+    layout_name_exact: "brise glace"
+    statut: "variable"
+    placeholders:
+      PH24: "__QUESTION_PRINCIPALE_BRISE_GLACE__"
+      PH25: "__CONSIGNE_COURTE_BRISE_GLACE__"
+      PH26: "{{GLOBAL_FOOTER_LEFT}}"
+      PH27: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S08"
+    numero: 8
+    partie: "Apports théoriques"
+    layout_code: "MGEN-08"
+    layout_name_exact: "transition"
+    statut: "variable"
+    placeholders:
+      PH21: "2."
+      PH23: "__TITRE_THEMATIQUE_TRANSITION_APPORTS__"
+      PH24: "__PHRASE_COURTE_ANNONCE_APPORTS__"
+
+  - slide_id: "S09"
+    numero: 9
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_APPORT_1__"
+      PH26: |
+        __CONTENU_PROJETE_APPORT_1_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S10"
+    numero: 10
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_APPORT_2__"
+      PH26: |
+        __CONTENU_PROJETE_APPORT_2_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S11"
+    numero: 11
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_APPORT_3__"
+      PH26: |
+        __CONTENU_PROJETE_APPORT_3_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S12"
+    numero: 12
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_APPORT_4__"
+      PH26: |
+        __CONTENU_PROJETE_APPORT_4_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S13"
+    numero: 13
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_APPORT_5__"
+      PH26: |
+        __CONTENU_PROJETE_APPORT_5_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S14"
+    numero: 14
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_APPORT_6__"
+      PH26: |
+        __CONTENU_PROJETE_APPORT_6_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S15"
+    numero: 15
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_APPORT_7__"
+      PH26: |
+        __CONTENU_PROJETE_APPORT_7_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S16"
+    numero: 16
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_APPORT_8__"
+      PH26: |
+        __CONTENU_PROJETE_APPORT_8_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S17"
+    numero: 17
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-10"
+    layout_name_exact: "VraiFaux transition"
+    statut: "variable"
+    placeholders:
+      PH21: "3."
+
+  - slide_id: "S18"
+    numero: 18
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-11"
+    layout_name_exact: "VraiFaux?"
+    statut: "variable"
+    placeholders:
+      PH21: "__AFFIRMATION_VRAI_OU_FAUX_1__"
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S19"
+    numero: 19
+    partie: "Testez vos connaissances"
+    layout_code: "__MGEN_12_SI_FAUX_OU_MGEN_13_SI_VRAI__"
+    layout_name_exact: "__FAUX_ESPACE_EXCLAMATION_OU_VRAI_EXCLAMATION__"
+    statut: "variable"
+    placeholders:
+      __PLACEHOLDER_MESSAGE_PRINCIPAL_SELON_LAYOUT__: "__AFFIRMATION_CORRIGEE_OU_VALIDEE_1__"
+      __PLACEHOLDER_EXPLICATION_SELON_LAYOUT__: |
+        __EXPLICATION_COURTE_1_MAXIMUM_4_ELEMENTS__
+      __PLACEHOLDER_FOOTER_LEFT_SELON_LAYOUT__: "{{GLOBAL_FOOTER_LEFT}}"
+      __PLACEHOLDER_FOOTER_RIGHT_SELON_LAYOUT__: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S20"
+    numero: 20
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-11"
+    layout_name_exact: "VraiFaux?"
+    statut: "variable"
+    placeholders:
+      PH21: "__AFFIRMATION_VRAI_OU_FAUX_2__"
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S21"
+    numero: 21
+    partie: "Testez vos connaissances"
+    layout_code: "__MGEN_12_SI_FAUX_OU_MGEN_13_SI_VRAI__"
+    layout_name_exact: "__FAUX_ESPACE_EXCLAMATION_OU_VRAI_EXCLAMATION__"
+    statut: "variable"
+    placeholders:
+      __PLACEHOLDER_MESSAGE_PRINCIPAL_SELON_LAYOUT__: "__AFFIRMATION_CORRIGEE_OU_VALIDEE_2__"
+      __PLACEHOLDER_EXPLICATION_SELON_LAYOUT__: |
+        __EXPLICATION_COURTE_2_MAXIMUM_4_ELEMENTS__
+      __PLACEHOLDER_FOOTER_LEFT_SELON_LAYOUT__: "{{GLOBAL_FOOTER_LEFT}}"
+      __PLACEHOLDER_FOOTER_RIGHT_SELON_LAYOUT__: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S22"
+    numero: 22
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-11"
+    layout_name_exact: "VraiFaux?"
+    statut: "variable"
+    placeholders:
+      PH21: "__AFFIRMATION_VRAI_OU_FAUX_3__"
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S23"
+    numero: 23
+    partie: "Testez vos connaissances"
+    layout_code: "__MGEN_12_SI_FAUX_OU_MGEN_13_SI_VRAI__"
+    layout_name_exact: "__FAUX_ESPACE_EXCLAMATION_OU_VRAI_EXCLAMATION__"
+    statut: "variable"
+    placeholders:
+      __PLACEHOLDER_MESSAGE_PRINCIPAL_SELON_LAYOUT__: "__AFFIRMATION_CORRIGEE_OU_VALIDEE_3__"
+      __PLACEHOLDER_EXPLICATION_SELON_LAYOUT__: |
+        __EXPLICATION_COURTE_3_MAXIMUM_4_ELEMENTS__
+      __PLACEHOLDER_FOOTER_LEFT_SELON_LAYOUT__: "{{GLOBAL_FOOTER_LEFT}}"
+      __PLACEHOLDER_FOOTER_RIGHT_SELON_LAYOUT__: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S24"
+    numero: 24
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-08"
+    layout_name_exact: "transition"
+    statut: "variable"
+    placeholders:
+      PH21: "4."
+      PH23: "__TITRE_THEMATIQUE_TRANSITION_EXERCICES__"
+      PH24: "__PHRASE_COURTE_ANNONCE_EXERCICES__"
+
+  - slide_id: "S25"
+    numero: 25
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-14"
+    layout_name_exact: "exercices pratiques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_EXERCICE_OU_DEBRIEF_1__"
+      PH26: |
+        __CONSIGNE_ETAPES_OU_CONTENU_PROJETE_1_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S26"
+    numero: 26
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-14"
+    layout_name_exact: "exercices pratiques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_EXERCICE_OU_DEBRIEF_2__"
+      PH26: |
+        __CONSIGNE_ETAPES_OU_CONTENU_PROJETE_2_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S27"
+    numero: 27
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-14"
+    layout_name_exact: "exercices pratiques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_EXERCICE_OU_DEBRIEF_3__"
+      PH26: |
+        __CONSIGNE_ETAPES_OU_CONTENU_PROJETE_3_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S28"
+    numero: 28
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-14"
+    layout_name_exact: "exercices pratiques"
+    statut: "variable"
+    placeholders:
+      PH25: "__TITRE_EXERCICE_OU_DEBRIEF_4__"
+      PH26: |
+        __CONSIGNE_ETAPES_OU_CONTENU_PROJETE_4_MAXIMUM_5_ELEMENTS__
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S29"
+    numero: 29
+    partie: "Conclusion"
+    layout_code: "MGEN-08"
+    layout_name_exact: "transition"
+    statut: "variable"
+    placeholders:
+      PH21: "5."
+      PH23: "__TITRE_THEMATIQUE_TRANSITION_CONCLUSION__"
+      PH24: "__PHRASE_COURTE_ANNONCE_CONCLUSION__"
+
+  - slide_id: "S30"
+    numero: 30
+    partie: "Conclusion"
+    layout_code: "MGEN-15"
+    layout_name_exact: "synthèse"
+    statut: "variable"
+    placeholders:
+      PH26: |
+        __REPERE_ESSENTIEL_1__
+        __REPERE_ESSENTIEL_2__
+        __REPERE_ESSENTIEL_3__
+        __REPERE_ESSENTIEL_4__
+        __REPERE_ESSENTIEL_5_FACULTATIF_OU_SUPPRIMER_LA_LIGNE__
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH27: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S31"
+    numero: 31
+    partie: "Conclusion"
+    layout_code: "MGEN-16"
+    layout_name_exact: "pour aller plus loin"
+    statut: "variable"
+    placeholders:
+      PH26: |
+        __RESSOURCE_OU_ORIENTATION_1__
+        __RESSOURCE_OU_ORIENTATION_2__
+        __RESSOURCE_OU_ORIENTATION_3__
+        __RESSOURCE_OU_ORIENTATION_4_FACULTATIVE_OU_SUPPRIMER_LA_LIGNE__
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH27: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S32"
+    numero: 32
+    partie: "Conclusion"
+    layout_code: "MGEN-17"
+    layout_name_exact: "Vivoptim"
+    statut: "fixe — conserver intégralement"
+    placeholders:
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+
+  - slide_id: "S33"
+    numero: 33
+    partie: "Conclusion"
+    layout_code: "MGEN-18"
+    layout_name_exact: "4e de couverture"
+    statut: "variable"
+    placeholders:
+      PH26: |
+        {{GLOBAL_FOOTER_LEFT}}
+        {{GLOBAL_FOOTER_RIGHT}}
+
+ANOMALIES_TECHNIQUES:
+  statut_global: "__CONFORME_OU_NON_CONFORME__"
+  anomalies: []
+  arbitrages: []
+  controle_final:
+    nombre_total_slides: 33
+    nombre_slides_conforme: "__TRUE_OU_FALSE__"
+    template_fournie: true
+    template_auditee_materiellement: true
+    meme_template_pour_prompt3: true
+    un_masque_exactement: true
+    dix_huit_dispositions_exactement: true
+    noms_dispositions_uniques: true
+    ouverture_institutionnelle_complete: "__TRUE_OU_FALSE__"
+    couverture_presente: true
+    bienvenue_presente: true
+    intervenants_present: true
+    sommaire_cinq_parties_conforme: true
+    parties_presentes:
+      accueil_et_objectifs: true
+      apports_theoriques: true
+      testez_vos_connaissances: true
+      exercices_pratiques: true
+      conclusion: true
+    transitions_numerotees:
+      transition_1_accueil_et_objectifs: true
+      transition_2_apports_theoriques: true
+      transition_3_testez_vos_connaissances: true
+      transition_4_exercices_pratiques: true
+      transition_5_conclusion: true
+    mgen04_conforme: true
+    mgen04_placeholders_exacts: true
+    mgen04_sans_ph21: true
+    mgen04_sans_ph2: true
+    mgen04_sans_numero_slide: true
+    transitions_sans_numero_slide:
+      mgen04: true
+      mgen08: true
+      mgen10: true
+    vrai_ou_faux:
+      nombre_questions: 3
+      nombre_corrections: 3
+      corrections_immediates: true
+    synthese_dediee_presente: true
+    pour_aller_plus_loin_present: true
+    vivoptim_presente: true
+    vivoptim_unique: true
+    vivoptim_apres_mgen16: true
+    vivoptim_avant_mgen18: true
+    vivoptim_position_conforme: true
+    quatrieme_couverture_derniere: true
+    couverture_date_conforme: "__TRUE_OU_FALSE__"
+    intervenant_a_completer_conforme: true
+    dispositions_existantes_uniquement: "__TRUE_OU_FALSE__"
+    placeholders_existants_uniquement: "__TRUE_OU_FALSE__"
+    pieds_de_page_conformes: true
+    variables_globales_resolues: "__TRUE_OU_FALSE__"
+    variables_globales_valides: "__TRUE_OU_FALSE__"
+    yaml_valide: "__TRUE_OU_FALSE__"
+    aucun_triple_accent_grave: "__TRUE_OU_FALSE__"
+    densite_compatible_avec_les_zones: "__TRUE_OU_FALSE__"

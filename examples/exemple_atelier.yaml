@@ -1,0 +1,488 @@
+VARIABLES_GLOBALES:
+  GLOBAL_FOOTER_LEFT: "Atelier de prévention : Yoga sur chaise"
+  GLOBAL_FOOTER_RIGHT: "[Date à compléter]"
+SLIDES:
+  - slide_id: "S01"
+    numero: 1
+    partie: "Ouverture institutionnelle"
+    layout_code: "MGEN-01"
+    layout_name_exact: "couverture"
+    statut: "variable"
+    placeholders:
+      PH23: "{{GLOBAL_FOOTER_LEFT}}"
+      PH24: "Bouger, respirer et relâcher les tensions au travail"
+      PH25: "Une pratique accessible depuis une chaise"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S02"
+    numero: 2
+    partie: "Ouverture institutionnelle"
+    layout_code: "MGEN-02"
+    layout_name_exact: "Bienvenue!"
+    statut: "variable"
+    placeholders:
+      PH22: "Cet atelier propose des mouvements doux et des respirations simples à adapter à votre situation de travail."
+  - slide_id: "S03"
+    numero: 3
+    partie: "Ouverture institutionnelle"
+    layout_code: "MGEN-03"
+    layout_name_exact: "intervenants"
+    statut: "variable"
+    placeholders:
+      PH21: "À compléter"
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S04"
+    numero: 4
+    partie: "Ouverture institutionnelle"
+    layout_code: "MGEN-05"
+    layout_name_exact: "sommaire"
+    statut: "fixe — conserver intégralement"
+    placeholders:
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S05"
+    numero: 5
+    partie: "Accueil et objectifs"
+    layout_code: "MGEN-04"
+    layout_name_exact: "Accueil et objectifs"
+    statut: "variable"
+    placeholders:
+      PH25: "1."
+      PH24: "Commençons par préciser le cadre, les objectifs et les besoins du groupe."
+  - slide_id: "S06"
+    numero: 6
+    partie: "Accueil et objectifs"
+    layout_code: "MGEN-06"
+    layout_name_exact: "liste objectifs"
+    statut: "variable"
+    placeholders:
+      PH24: |
+        Définir ce qu’est le yoga sur chaise et en préciser les limites
+        Repérer les effets d’une posture assise maintenue trop longtemps
+        Adopter une installation stable et confortable
+        Réaliser des mouvements et des respirations simples sans forcer
+        Construire une micro-pause adaptée à son activité
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S07"
+    numero: 7
+    partie: "Accueil et objectifs"
+    layout_code: "MGEN-07"
+    layout_name_exact: "brise glace"
+    statut: "variable"
+    placeholders:
+      PH24: "À quel moment de la journée ressentez-vous le plus le besoin de bouger ?"
+      PH25: "Répondez en un mot ou choisissez le matin, le milieu de journée ou la fin de journée."
+      PH26: "{{GLOBAL_FOOTER_LEFT}}"
+      PH27: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S08"
+    numero: 8
+    partie: "Apports théoriques"
+    layout_code: "MGEN-08"
+    layout_name_exact: "transition"
+    statut: "variable"
+    placeholders:
+      PH21: "2."
+      PH23: "Comprendre avant de pratiquer"
+      PH24: "Quelques repères permettent de pratiquer avec utilité, mesure et sécurité."
+  - slide_id: "S09"
+    numero: 9
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "Le yoga sur chaise, en quelques mots"
+      PH26: |
+        • Une adaptation de mouvements, postures et respirations réalisés assis
+        • Une pratique possible dans un espace réduit et sans tenue particulière
+        • Une approche modulable selon la mobilité et le confort de chacun
+        • Un outil de bien-être qui ne constitue ni un diagnostic ni un traitement
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S10"
+    numero: 10
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "Pourquoi varier les postures ?"
+      PH26: |
+        • Rester assis longtemps limite les changements de position
+        • Une posture maintenue peut favoriser raideur et inconfort
+        • Alterner assis, debout et marche légère réduit le temps immobile
+        • Les micro-pauses complètent les changements d’activité au cours de la journée
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S11"
+    numero: 11
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "Des effets possibles, sans promesse"
+      PH26: |
+        • Des séances de yoga au travail peuvent contribuer à réduire le stress perçu
+        • Les mouvements doux peuvent améliorer temporairement l’aisance corporelle
+        • La respiration lente peut favoriser un retour au calme chez certaines personnes
+        • Les effets varient selon la régularité, le contexte et la situation individuelle
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S12"
+    numero: 12
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "Une base stable et confortable"
+      PH26: |
+        • Choisir une chaise stable et sécuriser les roulettes si nécessaire
+        • Poser les pieds au sol ou sur un appui
+        • Garder le dos allongé sans rechercher une position rigide
+        • Relâcher les épaules et conserver une respiration naturelle
+        • Ajuster la position avant chaque mouvement
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S13"
+    numero: 13
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "Bouger dans une amplitude juste"
+      PH26: |
+        • Rechercher une sensation d’étirement modérée, jamais une douleur
+        • Effectuer les mouvements lentement et sans à-coups
+        • Réduire l’amplitude dès qu’une zone semble sensible
+        • Conserver des appuis stables pendant toute la pratique
+        • Revenir progressivement à la position de départ
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S14"
+    numero: 14
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "Respirer sans rechercher la performance"
+      PH26: |
+        • Inspirer et expirer à un rythme confortable
+        • Allonger légèrement l’expiration si cela reste agréable
+        • Ne pas bloquer volontairement la respiration
+        • Revenir à une respiration naturelle en cas d’inconfort
+        • Interrompre l’exercice en cas de vertige ou d’essoufflement inhabituel
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S15"
+    numero: 15
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "Adapter ou interrompre la pratique"
+      PH26: |
+        • Une douleur nette est un signal d’arrêt, pas un objectif
+        • Une posture peut être simplifiée en réduisant le mouvement
+        • Certaines situations nécessitent l’avis préalable d’un professionnel compétent
+        • Une douleur persistante ou inhabituelle doit être évaluée
+        • Chacun reste libre de ne pas réaliser un exercice
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S16"
+    numero: 16
+    partie: "Apports théoriques"
+    layout_code: "MGEN-09"
+    layout_name_exact: "apports théoriques"
+    statut: "variable"
+    placeholders:
+      PH25: "Un complément à la prévention au travail"
+      PH26: |
+        • Le yoga sur chaise ne remplace pas l’activité physique régulière
+        • Il ne corrige pas à lui seul un poste de travail inadapté
+        • L’organisation du travail doit permettre des changements d’activité et des pauses
+        • L’ergonomie et la prévention collective restent indispensables
+        • La pratique individuelle s’inscrit dans un ensemble plus large d’actions
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S17"
+    numero: 17
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-10"
+    layout_name_exact: "VraiFaux transition"
+    statut: "variable"
+    placeholders:
+      PH21: "3."
+  - slide_id: "S18"
+    numero: 18
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-11"
+    layout_name_exact: "VraiFaux?"
+    statut: "variable"
+    placeholders:
+      PH21: "Le yoga sur chaise suffit à compenser une journée entière passée en position assise."
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S19"
+    numero: 19
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-12"
+    layout_name_exact: "Faux !"
+    statut: "variable"
+    placeholders:
+      PH25: "Le yoga sur chaise peut interrompre ponctuellement l’immobilité, mais il ne suffit pas à compenser une forte sédentarité."
+      PH26: |
+        • Il est utile de varier régulièrement les positions et les activités
+        • L’activité physique et les déplacements restent nécessaires
+        • L’organisation et l’aménagement du travail jouent également un rôle
+        Une micro-pause ne remplace pas une journée active.
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S20"
+    numero: 20
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-11"
+    layout_name_exact: "VraiFaux?"
+    statut: "variable"
+    placeholders:
+      PH21: "Pour qu’un étirement soit efficace, il faut aller jusqu’à une douleur nette."
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S21"
+    numero: 21
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-12"
+    layout_name_exact: "Faux !"
+    statut: "variable"
+    placeholders:
+      PH25: "Un étirement doit rester modéré, progressif et confortable."
+      PH26: |
+        • La douleur signale qu’il faut réduire l’amplitude ou arrêter
+        • Une respiration fluide aide à conserver un effort mesuré
+        • La régularité compte davantage que l’intensité
+        S’étirer ne signifie pas se faire mal.
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S22"
+    numero: 22
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-11"
+    layout_name_exact: "VraiFaux?"
+    statut: "variable"
+    placeholders:
+      PH21: "Une même posture peut être adaptée en réduisant son amplitude ou en gardant davantage d’appuis."
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S23"
+    numero: 23
+    partie: "Testez vos connaissances"
+    layout_code: "MGEN-13"
+    layout_name_exact: "Vrai!"
+    statut: "variable"
+    placeholders:
+      PH21: "Adapter une posture permet de préserver sa stabilité et de respecter ses possibilités du moment."
+      PH27: |
+        • L’amplitude peut être réduite sans annuler l’intérêt du mouvement
+        • Les pieds et les mains peuvent servir d’appuis supplémentaires
+        • Il est toujours possible de rester dans la position de départ
+        La bonne version est celle qui reste confortable.
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S24"
+    numero: 24
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-08"
+    layout_name_exact: "transition"
+    statut: "variable"
+    placeholders:
+      PH21: "4."
+      PH23: "Passer à la pratique"
+      PH24: "Expérimentons une courte séquence en restant attentifs aux sensations et aux appuis."
+  - slide_id: "S25"
+    numero: 25
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-14"
+    layout_name_exact: "exercices pratiques"
+    statut: "variable"
+    placeholders:
+      PH25: "Installer sa base"
+      PH26: |
+        1. Choisissez une chaise stable et sécurisez les roulettes
+        2. Posez les pieds parallèles, largeur du bassin
+        3. Allongez le dos sans vous raidir
+        4. Déposez les mains sur les cuisses
+        5. Observez trois respirations naturelles
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S26"
+    numero: 26
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-14"
+    layout_name_exact: "exercices pratiques"
+    statut: "variable"
+    placeholders:
+      PH25: "Délier la nuque et les épaules"
+      PH26: |
+        1. Montez les épaules à l’inspiration, puis relâchez-les à l’expiration
+        2. Effectuez cinq cercles d’épaules vers l’arrière
+        3. Inclinez doucement la tête à droite, puis à gauche
+        4. Ouvrez et refermez les mains plusieurs fois
+        5. Réduisez le mouvement au moindre inconfort
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S27"
+    numero: 27
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-14"
+    layout_name_exact: "exercices pratiques"
+    statut: "variable"
+    placeholders:
+      PH25: "Mobiliser le dos et les côtés"
+      PH26: |
+        1. Grandissez-vous en gardant les pieds au sol
+        2. Levez un bras et inclinez légèrement le buste du côté opposé
+        3. Revenez au centre, puis changez de côté
+        4. Tournez doucement le buste à droite, puis à gauche
+        5. Maintenez une respiration fluide sans chercher l’amplitude
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S28"
+    numero: 28
+    partie: "Exercices pratiques"
+    layout_code: "MGEN-14"
+    layout_name_exact: "exercices pratiques"
+    statut: "variable"
+    placeholders:
+      PH25: "Créer sa micro-pause de trois minutes"
+      PH26: |
+        1. Choisissez un mouvement pour les épaules
+        2. Ajoutez un étirement latéral ou une torsion douce
+        3. Terminez par trois à cinq respirations confortables
+        4. Associez cette routine à un moment précis de la journée
+        5. Levez-vous ou marchez lorsque la situation le permet
+      PH27: "{{GLOBAL_FOOTER_LEFT}}"
+      PH28: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S29"
+    numero: 29
+    partie: "Conclusion"
+    layout_code: "MGEN-08"
+    layout_name_exact: "transition"
+    statut: "variable"
+    placeholders:
+      PH21: "5."
+      PH23: "Faire durer les bénéfices de la pause"
+      PH24: "Retenons les repères essentiels et les moyens d’intégrer la pratique au quotidien."
+  - slide_id: "S30"
+    numero: 30
+    partie: "Conclusion"
+    layout_code: "MGEN-15"
+    layout_name_exact: "synthèse"
+    statut: "variable"
+    placeholders:
+      PH26: |
+        • Une pratique courte peut aider à interrompre l’immobilité et à relâcher certaines tensions
+        • La stabilité, la lenteur et une respiration confortable priment sur l’amplitude
+        • Toute douleur nette, tout vertige ou tout essoufflement inhabituel impose l’arrêt
+        • Les mouvements sur chaise complètent, sans les remplacer, l’activité physique et l’ergonomie
+        • Une routine simple devient plus facile à maintenir lorsqu’elle est associée à un moment précis
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH27: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S31"
+    numero: 31
+    partie: "Conclusion"
+    layout_code: "MGEN-16"
+    layout_name_exact: "pour aller plus loin"
+    statut: "variable"
+    placeholders:
+      PH26: |
+        • Consulter les repères de l’INRS sur le travail sur écran et les postures sédentaires
+        • Utiliser les recommandations de l’Assurance Maladie et de l’Anses pour réduire le temps assis
+        • Solliciter un professionnel de santé en cas de douleur persistante ou de limitation particulière
+        • Pratiquer avec un professionnel formé au yoga adapté pour personnaliser les mouvements
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH27: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S32"
+    numero: 32
+    partie: "Conclusion"
+    layout_code: "MGEN-17"
+    layout_name_exact: "Vivoptim"
+    statut: "fixe — conserver intégralement"
+    placeholders:
+      PH25: "{{GLOBAL_FOOTER_LEFT}}"
+      PH26: "{{GLOBAL_FOOTER_RIGHT}}"
+  - slide_id: "S33"
+    numero: 33
+    partie: "Conclusion"
+    layout_code: "MGEN-18"
+    layout_name_exact: "4e de couverture"
+    statut: "variable"
+    placeholders:
+      PH26: |
+        {{GLOBAL_FOOTER_LEFT}}
+        {{GLOBAL_FOOTER_RIGHT}}
+ANOMALIES_TECHNIQUES:
+  statut_global: "CONFORME"
+  anomalies: []
+  arbitrages: []
+  controle_final:
+    nombre_total_slides: 33
+    nombre_slides_conforme: true
+    template_fournie: true
+    template_auditee_materiellement: true
+    meme_template_pour_prompt3: true
+    un_masque_exactement: true
+    dix_huit_dispositions_exactement: true
+    noms_dispositions_uniques: true
+    ouverture_institutionnelle_complete: true
+    couverture_presente: true
+    bienvenue_presente: true
+    intervenants_present: true
+    sommaire_cinq_parties_conforme: true
+    parties_presentes:
+      accueil_et_objectifs: true
+      apports_theoriques: true
+      testez_vos_connaissances: true
+      exercices_pratiques: true
+      conclusion: true
+    transitions_numerotees:
+      transition_1_accueil_et_objectifs: true
+      transition_2_apports_theoriques: true
+      transition_3_testez_vos_connaissances: true
+      transition_4_exercices_pratiques: true
+      transition_5_conclusion: true
+    mgen04_conforme: true
+    mgen04_placeholders_exacts: true
+    mgen04_sans_ph21: true
+    mgen04_sans_ph2: true
+    mgen04_sans_numero_slide: true
+    transitions_sans_numero_slide:
+      mgen04: true
+      mgen08: true
+      mgen10: true
+    vrai_ou_faux:
+      nombre_questions: 3
+      nombre_corrections: 3
+      corrections_immediates: true
+    synthese_dediee_presente: true
+    pour_aller_plus_loin_present: true
+    vivoptim_presente: true
+    vivoptim_unique: true
+    vivoptim_apres_mgen16: true
+    vivoptim_avant_mgen18: true
+    vivoptim_position_conforme: true
+    quatrieme_couverture_derniere: true
+    couverture_date_conforme: true
+    intervenant_a_completer_conforme: true
+    dispositions_existantes_uniquement: true
+    placeholders_existants_uniquement: true
+    pieds_de_page_conformes: true
+    variables_globales_resolues: true
+    variables_globales_valides: true
+    yaml_valide: true
+    aucun_triple_accent_grave: true
+    densite_compatible_avec_les_zones: true
