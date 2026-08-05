@@ -20,44 +20,171 @@ st.set_page_config(
     layout="centered",
 )
 
+
+def _digest(data: bytes) -> str:
+    """Calcule l’empreinte du YAML afin de détecter tout changement de contenu."""
+    return hashlib.sha256(data).hexdigest()
+
+
+def _clean_pasted_yaml(text: str) -> str:
+    """
+    Nettoie un YAML collé dans l’interface.
+
+    Les éventuelles balises Markdown suivantes sont retirées :
+    ```yaml
+    ...
+    ```
+    """
+    cleaned = text.strip()
+
+    if not cleaned.startswith("```"):
+        return cleaned
+
+    lines = cleaned.splitlines()
+
+    if lines and lines[0].strip().lower() in {
+        "```yaml",
+        "```yml",
+        "```",
+    }:
+        lines = lines[1:]
+
+    if lines and lines[-1].strip() == "```":
+        lines = lines[:-1]
+
+    return "\n".join(lines).strip()
+
+
+def _safe_filename(filename: str, fallback: str) -> str:
+    """Évite qu’un nom de fichier contienne un chemin ou soit vide."""
+    safe_name = Path(filename).name.strip()
+    return safe_name or fallback
+
+
 st.markdown(
     """
     <style>
-      .block-container {max-width: 860px; padding-top: 2.4rem; padding-bottom: 3rem;}
-      .main-title {font-size: 2.15rem; font-weight: 750; margin-bottom: .2rem;}
-      .main-subtitle {color: #5d6470; margin-bottom: 1.5rem;}
-      .status-ok {padding: .85rem 1rem; border-radius: .55rem; background: #eef8f1; border: 1px solid #b8dfc3;}
-      .status-error {padding: .85rem 1rem; border-radius: .55rem; background: #fff1f1; border: 1px solid #e5b3b3;}
-      .small-note {font-size: .88rem; color: #68707d;}
+      .block-container {
+          max-width: 860px;
+          padding-top: 2.4rem;
+          padding-bottom: 3rem;
+      }
+
+      .main-title {
+          font-size: 2.15rem;
+          font-weight: 750;
+          margin-bottom: .2rem;
+      }
+
+      .main-subtitle {
+          color: #5d6470;
+          margin-bottom: 1.5rem;
+      }
+
+      .status-ok {
+          padding: .85rem 1rem;
+          border-radius: .55rem;
+          background: #eef8f1;
+          border: 1px solid #b8dfc3;
+      }
+
+      .status-error {
+          padding: .85rem 1rem;
+          border-radius: .55rem;
+          background: #fff1f1;
+          border: 1px solid #e5b3b3;
+      }
+
+      .small-note {
+          font-size: .88rem;
+          color: #68707d;
+      }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-st.markdown('<div class="main-title">Générateur PowerPoint MGEN</div>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="main-subtitle">Déposez le YAML définitif. Le type de support, la template et le schéma sont sélectionnés automatiquement.</div>',
+    '<div class="main-title">Générateur PowerPoint MGEN</div>',
     unsafe_allow_html=True,
 )
 
-uploaded = st.file_uploader(
-    "Fichier YAML définitif",
-    type=["yaml", "yml"],
-    accept_multiple_files=False,
-    help="Formats acceptés : .yaml et .yml",
+st.markdown(
+    """
+    <div class="main-subtitle">
+        Collez ou téléversez le YAML définitif.
+        Le type de support, la template et le schéma sont sélectionnés automatiquement.
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
 
 
-def _digest(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
+# ---------------------------------------------------------------------------
+# Entrée du YAML
+# ---------------------------------------------------------------------------
+
+input_mode = st.radio(
+    "Mode d’entrée",
+    options=[
+        "Coller le YAML",
+        "Téléverser un fichier",
+    ],
+    horizontal=True,
+)
+
+raw: bytes | None = None
+source_name = "yaml_colle.yaml"
+
+if input_mode == "Coller le YAML":
+    pasted_yaml = st.text_area(
+        "Code YAML définitif",
+        height=500,
+        placeholder=(
+            "Collez ici l’intégralité du code YAML définitif.\n\n"
+            "Les éventuelles balises ```yaml et ``` seront retirées automatiquement."
+        ),
+        help="Le contenu collé est traité exactement comme un fichier YAML téléversé.",
+    )
+
+    cleaned_yaml = _clean_pasted_yaml(pasted_yaml)
+
+    if cleaned_yaml:
+        raw = cleaned_yaml.encode("utf-8")
+
+else:
+    uploaded = st.file_uploader(
+        "Fichier YAML définitif",
+        type=["yaml", "yml"],
+        accept_multiple_files=False,
+        help="Formats acceptés : .yaml et .yml",
+    )
+
+    if uploaded is not None:
+        raw = uploaded.getvalue()
+        source_name = _safe_filename(
+            uploaded.name,
+            fallback="support_mgen.yaml",
+        )
 
 
-if uploaded is None:
-    st.info("Sélectionnez un YAML Atelier, Conférence ou Webinaire pour commencer.")
+# ---------------------------------------------------------------------------
+# Aucun YAML fourni
+# ---------------------------------------------------------------------------
+
+if raw is None:
+    st.info(
+        "Collez un YAML définitif ou téléversez un fichier "
+        "Atelier, Conférence ou Webinaire pour commencer."
+    )
+
     st.markdown("### Exemples")
+
     col1, col2 = st.columns(2)
+
     conference_example = Path("examples/exemple_conference.yaml")
     atelier_example = Path("examples/exemple_atelier.yaml")
+
     if conference_example.exists():
         col1.download_button(
             "Télécharger l’exemple Conférence",
@@ -66,6 +193,7 @@ if uploaded is None:
             mime="application/yaml",
             use_container_width=True,
         )
+
     if atelier_example.exists():
         col2.download_button(
             "Télécharger l’exemple Atelier",
@@ -74,77 +202,162 @@ if uploaded is None:
             mime="application/yaml",
             use_container_width=True,
         )
+
+
+# ---------------------------------------------------------------------------
+# Inspection et génération
+# ---------------------------------------------------------------------------
+
 else:
-    raw = uploaded.getvalue()
     current_digest = _digest(raw)
-    if st.session_state.get("uploaded_digest") != current_digest:
-        st.session_state["uploaded_digest"] = current_digest
+
+    # Réinitialise les fichiers générés lorsque le YAML change.
+    if st.session_state.get("yaml_digest") != current_digest:
+        st.session_state["yaml_digest"] = current_digest
         st.session_state.pop("generated_pptx", None)
         st.session_state.pop("generated_report", None)
         st.session_state.pop("generated_name", None)
         st.session_state.pop("report_name", None)
+        st.session_state.pop("generated_slides", None)
 
+    # Contrôle préalable du YAML.
     try:
         with tempfile.TemporaryDirectory(prefix="mgen_inspect_") as tmp:
-            yaml_path = Path(tmp) / uploaded.name
+            yaml_path = Path(tmp) / source_name
             yaml_path.write_bytes(raw)
+
             summary = inspect_yaml(yaml_path)
+
     except Exception as exc:
         st.markdown(
-            f'<div class="status-error"><strong>YAML non conforme.</strong><br>{exc}</div>',
+            """
+            <div class="status-error">
+                <strong>YAML non conforme.</strong>
+            </div>
+            """,
             unsafe_allow_html=True,
         )
+
+        st.code(str(exc), language=None)
         st.stop()
 
-    st.markdown('<div class="status-ok"><strong>YAML conforme et prêt à être généré.</strong></div>', unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="status-ok">
+            <strong>YAML conforme et prêt à être généré.</strong>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     st.write("")
+
     c1, c2 = st.columns(2)
-    c1.metric("Type détecté", summary.support_label)
-    c2.metric("Nombre de slides", summary.expected_slides)
+
+    c1.metric(
+        "Type détecté",
+        summary.support_label,
+    )
+
+    c2.metric(
+        "Nombre de slides",
+        summary.expected_slides,
+    )
+
     st.write(f"**Titre :** {summary.title}")
+
     if summary.subtitle:
         st.write(f"**Sous-titre :** {summary.subtitle}")
+
     st.write(f"**Architecture :** {summary.architecture}")
     st.write(f"**Date :** {summary.date}")
 
     suggested_name = default_output_name(summary)
-    output_name = st.text_input("Nom du PowerPoint", value=suggested_name)
+
+    requested_output_name = st.text_input(
+        "Nom du PowerPoint",
+        value=suggested_name,
+        key=f"output_name_{current_digest}",
+    )
+
+    output_name = _safe_filename(
+        requested_output_name,
+        fallback=suggested_name,
+    )
+
     if not output_name.lower().endswith(".pptx"):
         output_name += ".pptx"
 
-    if st.button("Générer le PowerPoint", type="primary", use_container_width=True):
+    if st.button(
+        "Générer le PowerPoint",
+        type="primary",
+        use_container_width=True,
+    ):
         try:
             with st.spinner("Génération et contrôles techniques en cours…"):
-                with tempfile.TemporaryDirectory(prefix="mgen_generate_") as tmp:
+                with tempfile.TemporaryDirectory(
+                    prefix="mgen_generate_"
+                ) as tmp:
                     tmpdir = Path(tmp)
-                    yaml_path = tmpdir / uploaded.name
+
+                    yaml_path = tmpdir / source_name
                     output_path = tmpdir / output_name
+
                     yaml_path.write_bytes(raw)
-                    result = generate_powerpoint(yaml_path, output_path)
-                    st.session_state["generated_pptx"] = result.output_path.read_bytes()
-                    st.session_state["generated_report"] = result.report_path.read_bytes()
-                    st.session_state["generated_name"] = result.output_path.name
-                    st.session_state["report_name"] = result.report_path.name
-                    st.session_state["generated_slides"] = result.generated_slides
+
+                    result = generate_powerpoint(
+                        yaml_path,
+                        output_path,
+                    )
+
+                    st.session_state["generated_pptx"] = (
+                        result.output_path.read_bytes()
+                    )
+
+                    st.session_state["generated_report"] = (
+                        result.report_path.read_bytes()
+                    )
+
+                    st.session_state["generated_name"] = (
+                        result.output_path.name
+                    )
+
+                    st.session_state["report_name"] = (
+                        result.report_path.name
+                    )
+
+                    st.session_state["generated_slides"] = (
+                        result.generated_slides
+                    )
+
             st.success(
-                f"PowerPoint généré avec succès : {st.session_state['generated_slides']} slides."
+                "PowerPoint généré avec succès : "
+                f"{st.session_state['generated_slides']} slides."
             )
+
         except MgenGeneratorError as exc:
             st.error(f"Génération impossible : {exc}")
+
         except Exception as exc:
             st.error(f"Erreur inattendue : {exc}")
 
     if st.session_state.get("generated_pptx"):
         st.markdown("### Fichiers générés")
+
         d1, d2 = st.columns(2)
+
         d1.download_button(
             "Télécharger le PowerPoint",
             data=st.session_state["generated_pptx"],
             file_name=st.session_state["generated_name"],
-            mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            mime=(
+                "application/vnd.openxmlformats-officedocument."
+                "presentationml.presentation"
+            ),
             type="primary",
             use_container_width=True,
         )
+
         d2.download_button(
             "Télécharger le rapport",
             data=st.session_state["generated_report"],
@@ -152,10 +365,21 @@ else:
             mime="text/markdown",
             use_container_width=True,
         )
-        st.warning("Une vérification visuelle rapide dans PowerPoint reste nécessaire avant diffusion.")
+
+        st.warning(
+            "Une vérification visuelle rapide dans PowerPoint "
+            "reste nécessaire avant diffusion."
+        )
+
 
 st.divider()
+
 st.markdown(
-    '<div class="small-note">Les fichiers sont traités temporairement pendant la session. Aucun compte IA n’est utilisé pour la génération du PowerPoint.</div>',
+    """
+    <div class="small-note">
+        Les fichiers sont traités temporairement pendant la session.
+        Aucun compte IA n’est utilisé pour la génération du PowerPoint.
+    </div>
+    """,
     unsafe_allow_html=True,
 )
