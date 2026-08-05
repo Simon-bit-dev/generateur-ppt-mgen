@@ -21,51 +21,103 @@ st.set_page_config(
 )
 
 
+# ---------------------------------------------------------------------------
+# Fonctions utilitaires
+# ---------------------------------------------------------------------------
+
 def _digest(data: bytes) -> str:
-    """Calcule l’empreinte du YAML afin de détecter tout changement de contenu."""
+    """Calcule l’empreinte du YAML afin de détecter tout changement."""
     return hashlib.sha256(data).hexdigest()
 
 
 def _clean_pasted_yaml(text: str) -> str:
     """
-    Nettoie un YAML collé dans l’interface.
+    Nettoie uniquement l’enveloppe Markdown d’un YAML collé.
 
-    Corrections appliquées :
-    - suppression des éventuelles balises Markdown ```yaml ... ```;
-    - remplacement des faux marqueurs de liste "* " et "• " par "- ".
+    La fonction retire les éventuelles balises :
+    ```yaml
+    ...
+    ```
+
+    Elle ne tente pas de reconstruire ou de réindenter automatiquement
+    un contenu transformé en liste à puces.
     """
     cleaned = text.strip()
 
-    if cleaned.startswith("```"):
-        lines = cleaned.splitlines()
+    if not cleaned:
+        return ""
 
-        if lines and lines[0].strip().lower() in {
-            "```yaml",
-            "```yml",
-            "```",
-        }:
-            lines = lines[1:]
+    lines = cleaned.splitlines()
 
-        if lines and lines[-1].strip() == "```":
-            lines = lines[:-1]
+    if lines and lines[0].strip().lower() in {
+        "```yaml",
+        "```yml",
+        "```",
+    }:
+        lines = lines[1:]
 
-        cleaned = "\n".join(lines).strip()
+    if lines and lines[-1].strip() == "```":
+        lines = lines[:-1]
 
-    normalized_lines: list[str] = []
+    return "\n".join(lines).strip()
 
-    for line in cleaned.splitlines():
+
+def _detect_pasted_yaml_problem(text: str) -> str | None:
+    """
+    Détecte les altérations fréquentes provoquées par un copier-coller
+    depuis un traitement de texte ou une interface qui transforme
+    le YAML en liste à puces.
+    """
+    if not text:
+        return None
+
+    lines = text.splitlines()
+
+    bullet_lines: list[int] = []
+    tab_lines: list[int] = []
+
+    for line_number, line in enumerate(lines, start=1):
         stripped = line.lstrip()
-        indentation = line[: len(line) - len(stripped)]
 
-        if stripped.startswith("* "):
-            line = indentation + "- " + stripped[2:]
+        if stripped.startswith(("•", "‣", "◦", "▪", "●")):
+            bullet_lines.append(line_number)
 
-        elif stripped.startswith("• "):
-            line = indentation + "- " + stripped[2:]
+        if "\t" in line:
+            tab_lines.append(line_number)
 
-        normalized_lines.append(line)
+    problems: list[str] = []
 
-    return "\n".join(normalized_lines).strip()
+    if bullet_lines:
+        displayed = ", ".join(str(number) for number in bullet_lines[:8])
+
+        if len(bullet_lines) > 8:
+            displayed += ", …"
+
+        problems.append(
+            "des puces typographiques ont été détectées "
+            f"aux lignes {displayed}"
+        )
+
+    if tab_lines:
+        displayed = ", ".join(str(number) for number in tab_lines[:8])
+
+        if len(tab_lines) > 8:
+            displayed += ", …"
+
+        problems.append(
+            "des tabulations ont été détectées "
+            f"aux lignes {displayed}"
+        )
+
+    if not problems:
+        return None
+
+    return (
+        "Le contenu collé n’est pas du YAML brut : "
+        + " et ".join(problems)
+        + ". Copiez directement le contenu d’un bloc de code YAML, "
+        "en conservant ses espaces d’indentation."
+    )
 
 
 def _safe_filename(filename: str, fallback: str) -> str:
@@ -73,6 +125,10 @@ def _safe_filename(filename: str, fallback: str) -> str:
     safe_name = Path(filename).name.strip()
     return safe_name or fallback
 
+
+# ---------------------------------------------------------------------------
+# Style
+# ---------------------------------------------------------------------------
 
 st.markdown(
     """
@@ -148,26 +204,34 @@ input_mode = st.radio(
 
 raw: bytes | None = None
 source_name = "yaml_colle.yaml"
+input_error: str | None = None
 
 if input_mode == "Coller le YAML":
     pasted_yaml = st.text_area(
         "Code YAML définitif",
         height=500,
         placeholder=(
-            "Collez ici l’intégralité du code YAML définitif.\n\n"
-            "Les balises Markdown et certaines puces incorrectes "
-            "seront corrigées automatiquement."
+            "Collez ici l’intégralité du YAML définitif.\n\n"
+            "Exemple :\n"
+            "VARIABLES_GLOBALES:\n"
+            "  GLOBAL_FOOTER_LEFT: \"...\"\n\n"
+            "SLIDES:\n"
+            "  - slide_id: \"S01\"\n"
+            "    numero: 1"
         ),
         help=(
-            "Le contenu collé est traité exactement comme un fichier YAML "
-            "téléversé."
+            "Copiez directement le contenu du bloc de code YAML. "
+            "Les espaces d’indentation doivent être conservés."
         ),
     )
 
     cleaned_yaml = _clean_pasted_yaml(pasted_yaml)
 
     if cleaned_yaml:
-        raw = cleaned_yaml.encode("utf-8")
+        input_error = _detect_pasted_yaml_problem(cleaned_yaml)
+
+        if input_error is None:
+            raw = cleaned_yaml.encode("utf-8")
 
 else:
     uploaded = st.file_uploader(
@@ -186,10 +250,47 @@ else:
 
 
 # ---------------------------------------------------------------------------
+# Erreur de copier-coller
+# ---------------------------------------------------------------------------
+
+if input_error is not None:
+    st.markdown(
+        """
+        <div class="status-error">
+            <strong>Le contenu collé a perdu sa structure YAML.</strong>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.error(input_error)
+
+    st.markdown(
+        """
+        Le YAML doit notamment respecter cette structure :
+
+        ```yaml
+        VARIABLES_GLOBALES:
+          GLOBAL_FOOTER_LEFT: "Atelier de prévention"
+          GLOBAL_FOOTER_RIGHT: "[Date à compléter]"
+
+        SLIDES:
+          - slide_id: "S01"
+            numero: 1
+            partie: "Ouverture institutionnelle"
+            layout_code: "MGEN-01"
+            placeholders:
+              PH23: "{{GLOBAL_FOOTER_LEFT}}"
+        ```
+        """
+    )
+
+
+# ---------------------------------------------------------------------------
 # Aucun YAML fourni
 # ---------------------------------------------------------------------------
 
-if raw is None:
+elif raw is None:
     st.info(
         "Collez un YAML définitif ou téléversez un fichier "
         "Atelier, Conférence ou Webinaire pour commencer."
@@ -388,6 +489,10 @@ else:
             "reste nécessaire avant diffusion."
         )
 
+
+# ---------------------------------------------------------------------------
+# Pied de page
+# ---------------------------------------------------------------------------
 
 st.divider()
 
