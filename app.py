@@ -25,6 +25,7 @@ st.set_page_config(
 # Fonctions utilitaires
 # ---------------------------------------------------------------------------
 
+
 def _digest(data: bytes) -> str:
     """Calcule l’empreinte du YAML afin de détecter tout changement."""
     return hashlib.sha256(data).hexdigest()
@@ -32,17 +33,26 @@ def _digest(data: bytes) -> str:
 
 def _clean_pasted_yaml(text: str) -> str:
     """
-    Nettoie uniquement l’enveloppe Markdown d’un YAML collé.
+    Nettoie uniquement l’enveloppe technique d’un YAML collé.
 
-    La fonction retire les éventuelles balises :
-    ```yaml
-    ...
-    ```
+    La fonction :
+    - retire un éventuel BOM Unicode ;
+    - normalise les fins de ligne ;
+    - retire les éventuelles balises Markdown ```yaml ... ``` ;
+    - conserve strictement le contenu et l’indentation du YAML.
 
-    Elle ne tente pas de reconstruire ou de réindenter automatiquement
-    un contenu transformé en liste à puces.
+    Elle ne remplace pas les puces, ne réindente pas le document et ne tente
+    pas de corriger sa structure. La validation réelle est confiée au moteur.
     """
-    cleaned = text.strip()
+    if not text:
+        return ""
+
+    cleaned = (
+        text.replace("\ufeff", "")
+        .replace("\r\n", "\n")
+        .replace("\r", "\n")
+        .strip()
+    )
 
     if not cleaned:
         return ""
@@ -62,68 +72,36 @@ def _clean_pasted_yaml(text: str) -> str:
     return "\n".join(lines).strip()
 
 
-def _detect_pasted_yaml_problem(text: str) -> str | None:
-    """
-    Détecte les altérations fréquentes provoquées par un copier-coller
-    depuis un traitement de texte ou une interface qui transforme
-    le YAML en liste à puces.
-    """
-    if not text:
-        return None
-
-    lines = text.splitlines()
-
-    bullet_lines: list[int] = []
-    tab_lines: list[int] = []
-
-    for line_number, line in enumerate(lines, start=1):
-        stripped = line.lstrip()
-
-        if stripped.startswith(("•", "‣", "◦", "▪", "●")):
-            bullet_lines.append(line_number)
-
-        if "\t" in line:
-            tab_lines.append(line_number)
-
-    problems: list[str] = []
-
-    if bullet_lines:
-        displayed = ", ".join(str(number) for number in bullet_lines[:8])
-
-        if len(bullet_lines) > 8:
-            displayed += ", …"
-
-        problems.append(
-            "des puces typographiques ont été détectées "
-            f"aux lignes {displayed}"
-        )
-
-    if tab_lines:
-        displayed = ", ".join(str(number) for number in tab_lines[:8])
-
-        if len(tab_lines) > 8:
-            displayed += ", …"
-
-        problems.append(
-            "des tabulations ont été détectées "
-            f"aux lignes {displayed}"
-        )
-
-    if not problems:
-        return None
-
-    return (
-        "Le contenu collé n’est pas du YAML brut : "
-        + " et ".join(problems)
-        + ". Copiez directement le contenu d’un bloc de code YAML, "
-        "en conservant ses espaces d’indentation."
-    )
-
-
 def _safe_filename(filename: str, fallback: str) -> str:
     """Évite qu’un nom de fichier contienne un chemin ou soit vide."""
     safe_name = Path(filename).name.strip()
     return safe_name or fallback
+
+
+def _ensure_pptx_filename(filename: str, fallback: str) -> str:
+    """Retourne un nom de fichier sûr se terminant exactement par .pptx."""
+    safe_name = _safe_filename(filename, fallback)
+
+    if safe_name.lower().endswith(".pptx"):
+        return safe_name
+
+    stem = Path(safe_name).stem.strip()
+    if not stem:
+        stem = Path(fallback).stem or "Support_MGEN"
+
+    return f"{stem}.pptx"
+
+
+def _reset_generated_files() -> None:
+    """Supprime de la session les résultats liés à un ancien YAML."""
+    for key in (
+        "generated_pptx",
+        "generated_report",
+        "generated_name",
+        "report_name",
+        "generated_slides",
+    ):
+        st.session_state.pop(key, None)
 
 
 # ---------------------------------------------------------------------------
@@ -204,7 +182,6 @@ input_mode = st.radio(
 
 raw: bytes | None = None
 source_name = "yaml_colle.yaml"
-input_error: str | None = None
 
 if input_mode == "Coller le YAML":
     pasted_yaml = st.text_area(
@@ -220,18 +197,16 @@ if input_mode == "Coller le YAML":
             "    numero: 1"
         ),
         help=(
-            "Copiez directement le contenu du bloc de code YAML. "
-            "Les espaces d’indentation doivent être conservés."
+            "Le contenu est transmis au véritable parseur YAML et au schéma "
+            "métier du générateur. Les puces présentes dans les blocs de texte "
+            "sont conservées."
         ),
     )
 
     cleaned_yaml = _clean_pasted_yaml(pasted_yaml)
 
     if cleaned_yaml:
-        input_error = _detect_pasted_yaml_problem(cleaned_yaml)
-
-        if input_error is None:
-            raw = cleaned_yaml.encode("utf-8")
+        raw = cleaned_yaml.encode("utf-8")
 
 else:
     uploaded = st.file_uploader(
@@ -250,47 +225,10 @@ else:
 
 
 # ---------------------------------------------------------------------------
-# Erreur de copier-coller
-# ---------------------------------------------------------------------------
-
-if input_error is not None:
-    st.markdown(
-        """
-        <div class="status-error">
-            <strong>Le contenu collé a perdu sa structure YAML.</strong>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.error(input_error)
-
-    st.markdown(
-        """
-        Le YAML doit notamment respecter cette structure :
-
-        ```yaml
-        VARIABLES_GLOBALES:
-          GLOBAL_FOOTER_LEFT: "Atelier de prévention"
-          GLOBAL_FOOTER_RIGHT: "[Date à compléter]"
-
-        SLIDES:
-          - slide_id: "S01"
-            numero: 1
-            partie: "Ouverture institutionnelle"
-            layout_code: "MGEN-01"
-            placeholders:
-              PH23: "{{GLOBAL_FOOTER_LEFT}}"
-        ```
-        """
-    )
-
-
-# ---------------------------------------------------------------------------
 # Aucun YAML fourni
 # ---------------------------------------------------------------------------
 
-elif raw is None:
+if raw is None:
     st.info(
         "Collez un YAML définitif ou téléversez un fichier "
         "Atelier, Conférence ou Webinaire pour commencer."
@@ -332,21 +270,16 @@ else:
     # Réinitialise les fichiers générés lorsque le YAML change.
     if st.session_state.get("yaml_digest") != current_digest:
         st.session_state["yaml_digest"] = current_digest
-        st.session_state.pop("generated_pptx", None)
-        st.session_state.pop("generated_report", None)
-        st.session_state.pop("generated_name", None)
-        st.session_state.pop("report_name", None)
-        st.session_state.pop("generated_slides", None)
+        _reset_generated_files()
 
-    # Contrôle préalable du YAML.
+    # Contrôle préalable par le parseur YAML et le schéma métier du moteur.
     try:
         with tempfile.TemporaryDirectory(prefix="mgen_inspect_") as tmp:
             yaml_path = Path(tmp) / source_name
             yaml_path.write_bytes(raw)
-
             summary = inspect_yaml(yaml_path)
 
-    except Exception as exc:
+    except MgenGeneratorError as exc:
         st.markdown(
             """
             <div class="status-error">
@@ -355,8 +288,19 @@ else:
             """,
             unsafe_allow_html=True,
         )
-
         st.code(str(exc), language=None)
+        st.stop()
+
+    except Exception as exc:
+        st.markdown(
+            """
+            <div class="status-error">
+                <strong>Erreur inattendue pendant l’analyse du YAML.</strong>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.code(f"{type(exc).__name__}: {exc}", language=None)
         st.stop()
 
     st.markdown(
@@ -398,13 +342,10 @@ else:
         key=f"output_name_{current_digest}",
     )
 
-    output_name = _safe_filename(
+    output_name = _ensure_pptx_filename(
         requested_output_name,
         fallback=suggested_name,
     )
-
-    if not output_name.lower().endswith(".pptx"):
-        output_name += ".pptx"
 
     if st.button(
         "Générer le PowerPoint",
@@ -431,19 +372,15 @@ else:
                     st.session_state["generated_pptx"] = (
                         result.output_path.read_bytes()
                     )
-
                     st.session_state["generated_report"] = (
                         result.report_path.read_bytes()
                     )
-
                     st.session_state["generated_name"] = (
                         result.output_path.name
                     )
-
                     st.session_state["report_name"] = (
                         result.report_path.name
                     )
-
                     st.session_state["generated_slides"] = (
                         result.generated_slides
                     )
@@ -454,10 +391,15 @@ else:
             )
 
         except MgenGeneratorError as exc:
+            _reset_generated_files()
             st.error(f"Génération impossible : {exc}")
 
         except Exception as exc:
-            st.error(f"Erreur inattendue : {exc}")
+            _reset_generated_files()
+            st.error(
+                "Erreur inattendue pendant la génération : "
+                f"{type(exc).__name__}: {exc}"
+            )
 
     if st.session_state.get("generated_pptx"):
         st.markdown("### Fichiers générés")
