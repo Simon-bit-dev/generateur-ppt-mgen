@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import os
 import re
-import sys
 import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
@@ -38,9 +36,7 @@ class GenerationResult:
 
 
 def application_root() -> Path:
-    """Return resources root in source mode and in a PyInstaller bundle."""
-    if hasattr(sys, "_MEIPASS"):
-        return Path(getattr(sys, "_MEIPASS"))
+    """Return the project root containing the application resources."""
     return Path(__file__).resolve().parent.parent
 
 
@@ -157,9 +153,15 @@ def _write_portable_report(
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def generate_powerpoint(yaml_path: Path, output_path: Path) -> GenerationResult:
+def generate_powerpoint(
+    yaml_path: Path,
+    output_path: Path,
+    report_path: Path | None = None,
+) -> GenerationResult:
     yaml_path = yaml_path.resolve()
     output_path = output_path.resolve()
+    if report_path is not None:
+        report_path = report_path.resolve()
     data = load_yaml(yaml_path)
     try:
         support_type = detect_support_type(data)
@@ -193,7 +195,9 @@ def generate_powerpoint(yaml_path: Path, output_path: Path) -> GenerationResult:
     if not generation["layout_sequence_matches"]:
         raise MgenGeneratorError("La séquence des dispositions générées est incohérente.")
 
-    report_path = output_path.with_name(f"{output_path.stem}_RAPPORT.md")
+    if report_path is None:
+        report_path = output_path.with_name(f"{output_path.stem}_RAPPORT.md")
+    report_path.parent.mkdir(parents=True, exist_ok=True)
     _write_portable_report(
         report_path,
         summary=summary,
@@ -211,15 +215,3 @@ def generate_powerpoint(yaml_path: Path, output_path: Path) -> GenerationResult:
         template_sha256=str(template_audit["sha256"]),
         generated_slides=generation["slide_count"],
     )
-
-
-def open_path(path: Path) -> None:
-    path = path.resolve()
-    if sys.platform.startswith("win"):
-        os.startfile(str(path))  # type: ignore[attr-defined]
-    elif sys.platform == "darwin":
-        import subprocess
-        subprocess.Popen(["open", str(path)])
-    else:
-        import subprocess
-        subprocess.Popen(["xdg-open", str(path)])
