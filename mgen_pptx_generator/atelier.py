@@ -77,6 +77,55 @@ def _require(condition: bool, message: str) -> None:
         raise ValidationError(message)
 
 
+def _required_field(
+    mapping: Any,
+    key: str,
+    path: str,
+    *,
+    document: str = "YAML Atelier",
+) -> Any:
+    if not isinstance(mapping, dict):
+        parent = path.rsplit(".", 1)[0] if "." in path else "la racine"
+        raise ValidationError(
+            f"Structure invalide dans le {document} : {parent} doit être un objet."
+        )
+    if key not in mapping:
+        raise ValidationError(
+            f"Champ obligatoire manquant dans le {document} : {path}."
+        )
+    return mapping[key]
+
+
+def _required_mapping(
+    mapping: Any,
+    key: str,
+    path: str,
+    *,
+    document: str = "YAML Atelier",
+) -> dict[str, Any]:
+    value = _required_field(mapping, key, path, document=document)
+    _require(
+        isinstance(value, dict),
+        f"Le champ {path} du {document} doit être un objet.",
+    )
+    return value
+
+
+def _required_list(
+    mapping: Any,
+    key: str,
+    path: str,
+    *,
+    document: str = "YAML Atelier",
+) -> list[Any]:
+    value = _required_field(mapping, key, path, document=document)
+    _require(
+        isinstance(value, list),
+        f"Le champ {path} du {document} doit être une liste.",
+    )
+    return value
+
+
 def _contains_unfilled(value: Any) -> bool:
     if isinstance(value, str):
         return any(marker in value for marker in _UNFILLED_MARKERS)
@@ -112,67 +161,184 @@ def _normalize_roots(data: dict[str, Any]) -> set[str]:
 
 
 def validate_atelier_yaml(data: dict[str, Any], schema: dict[str, Any]) -> dict[str, int]:
+    missing_roots = sorted(ATELIER_ROOTS - _normalize_roots(data))
+    if missing_roots:
+        raise ValidationError(
+            "Champ obligatoire manquant dans le YAML Atelier : "
+            f"{missing_roots[0]}."
+        )
     _require(_normalize_roots(data) == ATELIER_ROOTS, "Le YAML Atelier doit conserver exactement les trois clés racines attendues.")
-    _require(set(schema.keys()).issuperset(SCHEMA_ROOTS), "Le schéma Atelier doit contenir VARIABLES_GLOBALES et SLIDES.")
+
+    missing_schema_roots = sorted(SCHEMA_ROOTS - set(schema))
+    if missing_schema_roots:
+        raise ValidationError(
+            "Champ obligatoire manquant dans le schéma Atelier : "
+            f"{missing_schema_roots[0]}."
+        )
     _require(not _contains_unfilled(data), "Le YAML Atelier contient encore un marqueur de remplissage.")
 
-    variables = data["VARIABLES_GLOBALES"]
+    variables = _required_mapping(
+        data,
+        "VARIABLES_GLOBALES",
+        "VARIABLES_GLOBALES",
+    )
+    for key in ("GLOBAL_FOOTER_LEFT", "GLOBAL_FOOTER_RIGHT"):
+        _required_field(variables, key, f"VARIABLES_GLOBALES.{key}")
     _require(set(variables) == {"GLOBAL_FOOTER_LEFT", "GLOBAL_FOOTER_RIGHT"}, "Les deux variables globales Atelier doivent être conservées exactement.")
     _require(all(isinstance(value, str) and value.strip() for value in variables.values()), "Les variables globales Atelier doivent être des chaînes non vides.")
 
-    anomalies = data["ANOMALIES_TECHNIQUES"]
-    _require(isinstance(anomalies, dict) and anomalies.get("statut_global") == "CONFORME", "Le YAML Atelier doit avoir un statut technique CONFORME.")
-    _require(anomalies.get("anomalies") == [], "Le YAML Atelier contient des anomalies techniques déclarées.")
+    anomalies = _required_mapping(
+        data,
+        "ANOMALIES_TECHNIQUES",
+        "ANOMALIES_TECHNIQUES",
+    )
+    anomaly_status = _required_field(
+        anomalies,
+        "statut_global",
+        "ANOMALIES_TECHNIQUES.statut_global",
+    )
+    declared_anomalies = _required_field(
+        anomalies,
+        "anomalies",
+        "ANOMALIES_TECHNIQUES.anomalies",
+    )
+    _require(anomaly_status == "CONFORME", "Le YAML Atelier doit avoir un statut technique CONFORME.")
+    _require(declared_anomalies == [], "Le YAML Atelier contient des anomalies techniques déclarées.")
 
-    slides = data["SLIDES"]
-    schema_slides = schema["SLIDES"]
-    _require(isinstance(slides, list) and len(slides) == 33, "Le profil Atelier standard doit contenir exactement 33 slides.")
-    _require(isinstance(schema_slides, list) and len(schema_slides) == 33, "Le schéma Atelier fourni doit décrire exactement 33 slides.")
+    slides = _required_list(data, "SLIDES", "SLIDES")
+    schema_slides = _required_list(
+        schema,
+        "SLIDES",
+        "SLIDES",
+        document="schéma Atelier",
+    )
+    _require(len(slides) == 33, "Le profil Atelier standard doit contenir exactement 33 slides.")
+    _require(len(schema_slides) == 33, "Le schéma Atelier fourni doit décrire exactement 33 slides.")
 
     layout_counts: dict[str, int] = {}
+    layout_sequence: list[str] = []
     for index, (slide, schema_slide) in enumerate(zip(slides, schema_slides), start=1):
         expected_id = f"S{index:02d}"
-        _require(slide.get("slide_id") == expected_id, f"Slide {index}: slide_id attendu {expected_id}.")
-        _require(slide.get("numero") == index, f"Slide {expected_id}: numero attendu {index}.")
-        _require(slide.get("slide_id") == schema_slide.get("slide_id"), f"Slide {expected_id}: divergence avec le schéma.")
-        _require(slide.get("numero") == schema_slide.get("numero"), f"Slide {expected_id}: numero divergent du schéma.")
-        _require(slide.get("partie") == schema_slide.get("partie"), f"Slide {expected_id}: partie divergente du schéma.")
-        _require(slide.get("statut") in {"variable", "fixe — conserver intégralement"}, f"Slide {expected_id}: statut invalide.")
+        slide_path = f"SLIDES[{index - 1}]"
+        schema_slide_path = f"SLIDES[{index - 1}]"
+        _require(
+            isinstance(slide, dict),
+            f"Le champ {slide_path} du YAML Atelier doit être un objet.",
+        )
+        _require(
+            isinstance(schema_slide, dict),
+            f"Le champ {schema_slide_path} du schéma Atelier doit être un objet.",
+        )
 
-        code = slide.get("layout_code")
-        name = slide.get("layout_name_exact")
-        schema_code = schema_slide.get("layout_code")
-        schema_name = schema_slide.get("layout_name_exact")
-        placeholders = slide.get("placeholders")
-        _require(isinstance(placeholders, dict), f"Slide {expected_id}: placeholders doit être un objet.")
+        slide_id = _required_field(slide, "slide_id", f"{slide_path}.slide_id")
+        number = _required_field(slide, "numero", f"{slide_path}.numero")
+        part = _required_field(slide, "partie", f"{slide_path}.partie")
+        status = _required_field(slide, "statut", f"{slide_path}.statut")
+        code = _required_field(slide, "layout_code", f"{slide_path}.layout_code")
+        name = _required_field(
+            slide,
+            "layout_name_exact",
+            f"{slide_path}.layout_name_exact",
+        )
+        placeholders = _required_mapping(
+            slide,
+            "placeholders",
+            f"{slide_path}.placeholders",
+        )
+
+        schema_id = _required_field(
+            schema_slide,
+            "slide_id",
+            f"{schema_slide_path}.slide_id",
+            document="schéma Atelier",
+        )
+        schema_number = _required_field(
+            schema_slide,
+            "numero",
+            f"{schema_slide_path}.numero",
+            document="schéma Atelier",
+        )
+        schema_part = _required_field(
+            schema_slide,
+            "partie",
+            f"{schema_slide_path}.partie",
+            document="schéma Atelier",
+        )
+        schema_code = _required_field(
+            schema_slide,
+            "layout_code",
+            f"{schema_slide_path}.layout_code",
+            document="schéma Atelier",
+        )
+        schema_name = _required_field(
+            schema_slide,
+            "layout_name_exact",
+            f"{schema_slide_path}.layout_name_exact",
+            document="schéma Atelier",
+        )
+        schema_placeholders = _required_mapping(
+            schema_slide,
+            "placeholders",
+            f"{schema_slide_path}.placeholders",
+            document="schéma Atelier",
+        )
+
+        _require(slide_id == expected_id, f"Slide {index}: slide_id attendu {expected_id}.")
+        _require(number == index, f"Slide {expected_id}: numero attendu {index}.")
+        _require(slide_id == schema_id, f"Slide {expected_id}: divergence avec le schéma.")
+        _require(number == schema_number, f"Slide {expected_id}: numero divergent du schéma.")
+        _require(part == schema_part, f"Slide {expected_id}: partie divergente du schéma.")
+        _require(
+            isinstance(status, str)
+            and status in {"variable", "fixe — conserver intégralement"},
+            f"Slide {expected_id}: statut invalide.",
+        )
 
         if isinstance(schema_code, str) and schema_code.startswith("__MGEN_12"):
-            _require(code in CORRECTION_RULES, f"Slide {expected_id}: correction attendue en MGEN-12 ou MGEN-13.")
+            _require(
+                isinstance(code, str) and code in CORRECTION_RULES,
+                f"Slide {expected_id}: correction attendue en MGEN-12 ou MGEN-13.",
+            )
             expected_name, expected_keys = CORRECTION_RULES[code]
             _require(name == expected_name, f"Slide {expected_id}: nom de correction incompatible avec {code}.")
-            _require(set(placeholders) == expected_keys, f"Slide {expected_id}: placeholders de correction incompatibles avec {code}.")
         else:
             _require(code == schema_code, f"Slide {expected_id}: layout_code divergent du schéma.")
             _require(name == schema_name, f"Slide {expected_id}: layout_name_exact divergent du schéma.")
-            _require(set(placeholders) == set(schema_slide.get("placeholders", {})), f"Slide {expected_id}: clés de placeholders divergentes du schéma.")
+            expected_keys = set(schema_placeholders)
+
+        missing_placeholders = sorted(expected_keys - set(placeholders))
+        if missing_placeholders:
+            raise ValidationError(
+                "Champ obligatoire manquant dans le YAML Atelier : "
+                f"{slide_path}.placeholders.{missing_placeholders[0]}."
+            )
+        _require(
+            set(placeholders) == expected_keys,
+            f"Slide {expected_id}: clés de placeholders divergentes du schéma.",
+        )
 
         _require(name in EXPECTED_LAYOUTS, f"Slide {expected_id}: disposition Atelier inconnue {name!r}.")
         allowed_idxs = EXPECTED_PLACEHOLDERS[name]
         for key, value in placeholders.items():
+            _require(
+                isinstance(key, str),
+                f"Le chemin {slide_path}.placeholders contient une clé non textuelle.",
+            )
             idx = _parse_ph_key(key)
             _require(idx in allowed_idxs, f"Slide {expected_id}: {key} n’existe pas sur la disposition {name}.")
-            _require(isinstance(value, str), f"Slide {expected_id}: {key} doit contenir une chaîne.")
+            _require(isinstance(value, str), f"Le champ {slide_path}.placeholders.{key} doit contenir une chaîne.")
             _resolve_variables(value, variables)
 
         layout_counts[name] = layout_counts.get(name, 0) + 1
+        layout_sequence.append(name)
 
     _require(layout_counts.get("apports théoriques") == 8, "L’atelier standard doit contenir exactement 8 slides d’apports théoriques.")
     _require(layout_counts.get("VraiFaux?") == 3, "L’atelier standard doit contenir exactement 3 questions Vrai ou Faux.")
     _require(layout_counts.get("Faux !", 0) + layout_counts.get("Vrai!", 0) == 3, "L’atelier standard doit contenir exactement 3 corrections.")
     _require(layout_counts.get("exercices pratiques") == 4, "L’atelier standard doit contenir exactement 4 exercices pratiques.")
-    _require(slides[-3]["layout_name_exact"] == "pour aller plus loin", "La slide Pour aller plus loin doit précéder Vivoptim.")
-    _require(slides[-2]["layout_name_exact"] == "Vivoptim", "Vivoptim doit être l’avant-dernière séquence institutionnelle.")
-    _require(slides[-1]["layout_name_exact"] == "4e de couverture", "La quatrième de couverture doit être la dernière slide.")
+    _require(layout_sequence[-3] == "pour aller plus loin", "La slide Pour aller plus loin doit précéder Vivoptim.")
+    _require(layout_sequence[-2] == "Vivoptim", "Vivoptim doit être l’avant-dernière séquence institutionnelle.")
+    _require(layout_sequence[-1] == "4e de couverture", "La quatrième de couverture doit être la dernière slide.")
 
     return {
         "total_slides": 33,
